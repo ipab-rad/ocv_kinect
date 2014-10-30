@@ -13,5 +13,5 @@ endif()
 include_directories(${GAZEBO_INCLUDE_DIRS} ${OGRE_INCLUDE_DIRS} ${OGRE-Terrain_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS} ${OGRE_LIBRARY_DIRS})
 
-add_library(kinectcontrol SHARED kinectcontrol.cpp)
-target_link_libraries(kinectcontrol ${GAZEBO_LIBRARIES} ${OGRE_LIBRARIES} ${Boost_LIBRARIES})
+add_library(keyboardcontroller SHARED keyboardcontroller.cpp)
+target_link_libraries(keyboardcontroller ${GAZEBO_LIBRARIES} ${OGRE_LIBRARIES} ${Boost_LIBRARIES})
