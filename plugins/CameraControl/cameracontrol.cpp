@@ -19,15 +19,25 @@ namespace gazebo {
     }
             
     void CameraControlPlugin::Load(int argc, char** argv) {
+        printf("Loading plugin\n");
+        this->initialized = false;
+        this->updateConnection = event::Events::ConnectPreRender(
+                boost::bind(&CameraControlPlugin::Update, this));
+    }
+            
+    void CameraControlPlugin::Init() {
+        
+    }
+
+    void CameraControlPlugin::Initialize() {
+        printf("Initializing... ");
         this->node = transport::NodePtr(new transport::Node());
         this->node->Init(gui::get_world());
         this->subscriber = this->node->Subscribe("~/camcontrol",
             &CameraControlPlugin::OnInput, this);
-        this->updateConnection = event::Events::ConnectPreRender(
-            boost::bind(&CameraControlPlugin::Update, this));
-    }
-            
-    void CameraControlPlugin::Init() {
+        this->cam = gui::get_active_camera();
+        this->initialized = true;
+        printf("Initialized.\n");
     }
 
     void CameraControlPlugin::OnInput(ConstVector3dPtr &_msg) {
@@ -38,8 +48,8 @@ namespace gazebo {
     }
             
     void CameraControlPlugin::Update() {
-        if (!this->cam) {
-            this->cam = gui::get_active_camera();
+        if (!initialized) {
+            this->Initialize();
         }
         math::Vector3 pos = this->cam->GetWorldPosition();
         pos += this->inputVector;

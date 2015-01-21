@@ -4,9 +4,12 @@ find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
+set(GAZEBO_INCLUDE_DIRS /usr/include/gazebo-4.1;/usr/include/sdformat-2.0)
+set(GAZEBO_LIBRARY_DIRS /usr/lib/x86_64-linux-gnu/gazebo-4.1/plugins)
+
 include (FindPkgConfig)
 if (PKG_CONFIG_FOUND)
-  pkg_check_modules(GAZEBO gazebo)
+  pkg_check_modules(GAZEBO REQUIRED gazebo)
   pkg_check_modules(OGRE OGRE)
   pkg_check_modules(OGRE-Terrain OGRE-Terrain)
 endif()

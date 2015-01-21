@@ -15,6 +15,7 @@ namespace gazebo {
 	}
 
 	void KeyboardController::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf) {
+        printf("Loading plugin\n");
         this->updateConnection = event::Events::ConnectPreRender(
             boost::bind(&KeyboardController::Update, this));
 
@@ -27,6 +28,7 @@ namespace gazebo {
     }
             
     void KeyboardController::Update() {
+        printf("Keyboard plugin update\n");
 		math::Vector3 direction = math::Vector3(1.0, 0.0, 0.0);
         msgs::Vector3d msg = msgs::Convert(direction);
         this->publisher->Publish(msg);

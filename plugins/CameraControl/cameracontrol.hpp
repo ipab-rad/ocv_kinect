@@ -16,6 +16,7 @@ namespace gazebo {
             void Load(int argc, char** argv);
         
         private:
+            bool initialized;
     		event::ConnectionPtr updateConnection;
         	rendering::UserCameraPtr cam;
         	transport::NodePtr node;
@@ -23,6 +24,7 @@ namespace gazebo {
         	math::Vector3 inputVector;
 
             void Init();
+            void Initialize();
             void Update();
             void OnInput(ConstVector3dPtr &_msg);
             math::Vector3 getOffsetVector(double magnitude);
