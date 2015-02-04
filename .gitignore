@@ -29,3 +29,6 @@
 
 # Compiled plugin folder
 bin/
+
+# Include all of the external folder
+!external/

@@ -1,6 +1,6 @@
-CPPFLAGS=-g -I../../../OpenNI/Include
+CPPFLAGS=-g -I../../external/OpenNI/Include
 LDFLAGS=-g
-LDLIBS=-L../../../OpenNI/Platform/Linux/Bin/x64-Release/ -lOpenNI
+LDLIBS=-L../../external/OpenNI/Lib/ -lOpenNI
 
 SkeletonRecorder: SkeletonRecorder.o
 	g++ -o bin/SkeletonRecorder SkeletonRecorder.o $(LDFLAGS) $(LDLIBS)

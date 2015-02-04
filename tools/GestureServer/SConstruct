@@ -1,0 +1,3 @@
+Program("./bin/GestureServer", "./src/GestureServer.cpp",
+    CPPPATH=["./include", "../../external/OpenNI/Include"],
+    LIBPATH="../../external/OpenNI/Lib/", LIBS="OpenNI")
