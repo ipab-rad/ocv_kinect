@@ -2,6 +2,7 @@
 #define _GESTURESERVER_H
 
 #include <XnCppWrapper.h>
+#include <vec3.hpp>
 
 
 class GestureServer {
@@ -10,16 +11,25 @@ class GestureServer {
         GestureServer();
         ~GestureServer();
         int Initialize();
-        XnStatus InitializeContext();
+        void StartTrackingGestures();
         
     private:
         bool initialized;
         xn::Context context;
         xn::ScriptNode scriptNode;
-        xn::DepthGenerator depthGenerator;
         xn::UserGenerator userGenerator;
 
         bool ConfigFileExists();
+        XnStatus InitializeContext();
+        XnStatus InitializeUserGenerator();
+        XnStatus InitializeCallbacks();
+        void SendGesture();
+        vec3 CalculateMovementVector(const vec3& hand, const vec3& shoulder);
+
+        void XN_CALLBACK_TYPE OnNewUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
+        void XN_CALLBACK_TYPE OnLostUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
+        void XN_CALLBACK_TYPE OnCalibStart(xn::SkeletonCapability& cap, XnUserID nId, void* pCookie);
+        void XN_CALLBACK_TYPE OnCalibComplete(xn::SkeletonCapability& cap, XnUserID nId, XnCalibrationStatus eStatus, void* pCookie);
 };
 
 #endif
