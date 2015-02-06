@@ -6,6 +6,8 @@
 
 struct vec3 {
 
+    static vec3 zero();
+
     double x;
     double y;
     double z;
@@ -30,6 +32,8 @@ struct vec3 {
     double dot(const vec3& other);
     double mag();
     double magSq();
+
+    vec3 normalized();
 
 };
 

@@ -23,13 +23,13 @@ class GestureServer {
         XnStatus InitializeContext();
         XnStatus InitializeUserGenerator();
         XnStatus InitializeCallbacks();
-        void SendGesture();
+        void SendGesture(xn::SkeletonCapability& skelly, XnUserID user);
         vec3 CalculateMovementVector(const vec3& hand, const vec3& shoulder);
 
-        void XN_CALLBACK_TYPE OnNewUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
-        void XN_CALLBACK_TYPE OnLostUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
-        void XN_CALLBACK_TYPE OnCalibStart(xn::SkeletonCapability& cap, XnUserID nId, void* pCookie);
-        void XN_CALLBACK_TYPE OnCalibComplete(xn::SkeletonCapability& cap, XnUserID nId, XnCalibrationStatus eStatus, void* pCookie);
+        static void XN_CALLBACK_TYPE OnNewUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
+        static void XN_CALLBACK_TYPE OnLostUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
+        static void XN_CALLBACK_TYPE OnCalibStart(xn::SkeletonCapability& cap, XnUserID nId, void* pCookie);
+        static void XN_CALLBACK_TYPE OnCalibComplete(xn::SkeletonCapability& cap, XnUserID nId, XnCalibrationStatus eStatus, void* pCookie);
 };
 
 #endif

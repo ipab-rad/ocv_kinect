@@ -6,6 +6,8 @@
 #define MAX_USERS 16
 
 #define NEUTRAL_Z -300.0
+#define INPUTEXTENT 300.0
+#define DEADZONE 0.2
 
 
 GestureServer::GestureServer() {
@@ -70,9 +72,9 @@ XnStatus GestureServer::InitializeUserGenerator() {
 XnStatus GestureServer::InitializeCallbacks() {
     printf("Initializing callbacks.\n");
     XnCallbackHandle userCallbacks, calibStartCallback, calibCompleteCallback, poseDetectedCallback;
-    this->userGenerator.RegisterUserCallbacks(this->OnNewUser, this->OnLostUser, NULL, userCallbacks);
-    this->userGenerator.GetSkeletonCap().RegisterToCalibrationStart(this->OnCalibStart, NULL calibStartCallback);
-    this->userGenerator.GetSkeletonCap().RegisterToCalibrationComplete(this->OnCalibComplete, NULL calibCompleteCallback);
+    this->userGenerator.RegisterUserCallbacks(OnNewUser, OnLostUser, NULL, userCallbacks);
+    this->userGenerator.GetSkeletonCap().RegisterToCalibrationStart(OnCalibStart, NULL, calibStartCallback);
+    this->userGenerator.GetSkeletonCap().RegisterToCalibrationComplete(OnCalibComplete, NULL, calibCompleteCallback);
     if (this->userGenerator.GetSkeletonCap().NeedPoseForCalibration()) {
         printf("You need a calibration pose!!! Looks like you did something wrong, go fix the bug.\n");
     }
@@ -81,7 +83,7 @@ XnStatus GestureServer::InitializeCallbacks() {
 
 void XN_CALLBACK_TYPE GestureServer::OnNewUser(xn::UserGenerator& gen, XnUserID user, void* pCookie) {
     printf("New user found.\n");
-    this->userGenerator.GetSkeletonCap().RequestCalibration(user, true);
+    gen.GetSkeletonCap().RequestCalibration(user, true);
 }
 
 void XN_CALLBACK_TYPE GestureServer::OnLostUser(xn::UserGenerator& gen, XnUserID user, void* pCookie) {
@@ -95,7 +97,7 @@ void XN_CALLBACK_TYPE GestureServer::OnCalibStart(xn::SkeletonCapability& cap, X
 void XN_CALLBACK_TYPE GestureServer::OnCalibComplete(xn::SkeletonCapability& cap, XnUserID user, XnCalibrationStatus eStatus, void* pCookie) {
     if (eStatus == XN_CALIBRATION_STATUS_OK) {
         printf("Calibration complete.\n");
-        this->userGenerator.GetSkeletonCap().StartTracking(user);
+        //this->userGenerator.GetSkeletonCap().StartTracking(user);
     }
 }
 
@@ -127,12 +129,21 @@ void GestureServer::SendGesture(xn::SkeletonCapability& skelly, XnUserID user) {
     vec3 hand;
     vec3 shoulder;
     hand.set(rightHandPos.position);
-    shoulder.set(rightShoulderPos.position)
+    shoulder.set(rightShoulderPos.position);
     vec3 movementVector = this->CalculateMovementVector(hand, shoulder);
 }
 
 vec3 GestureServer::CalculateMovementVector(const vec3& hand, const vec3& shoulder) {
-    
+    vec3 dz = {0, 0, NEUTRAL_Z};
+    vec3 neutralPos = shoulder + dz;
+    vec3 direction = hand - neutralPos;
+    double magnitude = direction.mag() / INPUTEXTENT;
+    if (magnitude < DEADZONE) {
+        return vec3::zero();
+    } else {
+        double input = (magnitude-DEADZONE) / (1.0 - DEADZONE);
+        return direction.normalized() * input;
+    }
 }
 
 

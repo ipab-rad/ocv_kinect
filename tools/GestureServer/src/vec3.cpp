@@ -2,6 +2,10 @@
 #include <vec.hpp>
 
 
+vec3 vec3::zero() {
+    return {0, 0, 0};
+}
+
 vec3& vec3::set(double x0, double y0, double z0) {
     this->x = x0;
     this->y = y0;
@@ -93,4 +97,8 @@ double vec3::magSq() {
 
 double vec3::mag() {
     return sqrt(this->magSq());
+}
+
+vec3 vec3::normalized() {
+    return this / this->mag();
 }
