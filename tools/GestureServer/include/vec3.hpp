@@ -22,18 +22,37 @@ struct vec3 {
     vec3& operator*=(double c);
     vec3& operator/=(double c);
 
-    friend vec3 operator+(vec3 first, const vec3& second);
-    friend vec3 operator-(vec3 first, const vec3& second);
-    friend vec3 operator*(vec3 first, const vec3& second);
-    friend vec3 operator/(vec3 first, const vec3& second);
-    friend vec3 operator*(vec3 first, double c);
-    friend vec3 operator/(vec3 first, double c);
+    friend vec3 operator+(vec3 first, const vec3& second) {
+        return (first += second);
+    }
+
+    friend vec3 operator-(vec3 first, const vec3& second) {
+        return (first -= second);
+    }
+
+    friend vec3 operator*(vec3 first, const vec3& second) {
+        return (first *= second);
+    }
+
+    friend vec3 operator/(vec3 first, const vec3& second) {
+        return (first /= second);
+    }
+
+    friend vec3 operator*(vec3 first, double c) {
+        return (first *= c);
+    }
+
+    friend vec3 operator/(vec3 first, double c) {
+        return (first /= c);
+    }
 
     double dot(const vec3& other);
     double mag();
     double magSq();
 
     vec3 normalized();
+    vec3& squash(double minimum);
+    vec3& shrink(double amount);
 
 };
 

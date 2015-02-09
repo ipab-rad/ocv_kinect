@@ -1,5 +1,6 @@
-#include <math.h>
-#include <vec.hpp>
+#include <algorithm>
+#include <cmath>
+#include <vec3.hpp>
 
 
 vec3 vec3::zero() {
@@ -21,30 +22,30 @@ vec3& vec3::set(XnVector3D v) {
 }
 
 vec3& vec3::operator+=(const vec3& other) {
-    this->x += other->x;
-    this->y += other->y;
-    this->z += other->z;
+    this->x += other.x;
+    this->y += other.y;
+    this->z += other.z;
     return *this;
 }
 
 vec3& vec3::operator-=(const vec3& other) {
-    this->x -= other->x;
-    this->y -= other->y;
-    this->z -= other->z;
+    this->x -= other.x;
+    this->y -= other.y;
+    this->z -= other.z;
     return *this;
 }
 
 vec3& vec3::operator*=(const vec3& other) {
-    this->x *= other->x;
-    this->y *= other->y;
-    this->z *= other->z;
+    this->x *= other.x;
+    this->y *= other.y;
+    this->z *= other.z;
     return *this;
 }
 
 vec3& vec3::operator/=(const vec3& other) {
-    this->x /= other->x;
-    this->y /= other->y;
-    this->z /= other->z;
+    this->x /= other.x;
+    this->y /= other.y;
+    this->z /= other.z;
     return *this;
 }
 
@@ -62,37 +63,13 @@ vec3& vec3::operator/=(double c) {
     return *this;
 }
 
-friend vec3 vec3::operator+(vec3 first, const vec3& second) {
-    return (first += second);
-}
-
-friend vec3 vec3::operator-(vec3 first, const vec3& second) {
-    return (first -= second);
-}
-
-friend vec3 vec3::operator*(vec3 first, const vec3& second) {
-    return (first *= second);
-}
-
-friend vec3 vec3::operator/(vec3 first, const vec3& second) {
-    return (first /= second);
-}
-
-friend vec3 vec3::operator*(vec3 first, double c) {
-    return (first *= c);
-}
-
-friend vec3 vec3::operator/(vec3 first, double c) {
-    return (first /= c);
-}
-
 double vec3::dot(const vec3& other) {
-    vec3 mulled = (this * other);
+    vec3 mulled = (*this) * other;
     return mulled.x + mulled.y + mulled.z;
 }
 
 double vec3::magSq() {
-    return (this->dot(this));
+    return (this->dot(*this));
 }
 
 double vec3::mag() {
@@ -100,5 +77,26 @@ double vec3::mag() {
 }
 
 vec3 vec3::normalized() {
-    return this / this->mag();
+    return (*this) / (this->mag());
+}
+
+vec3& vec3::squash(double minimum) {
+    this->x = (-minimum < this->x && this->x < minimum) ? 0 : this->x;
+    this->y = (-minimum < this->y && this->y < minimum) ? 0 : this->y;
+    this->z = (-minimum < this->z && this->z < minimum) ? 0 : this->z;
+    return *this;
+}
+
+double sign(double val) {
+    return (val >= 0.0) ? 1.0 : -1.0; 
+}
+
+vec3& vec3::shrink(double amount) {
+    double sx = sign(this->x);
+    double sy = sign(this->y);
+    double sz = sign(this->z);
+    this->x = std::max(0.0, std::abs(this->x) - amount) * sx;
+    this->y = std::max(0.0, std::abs(this->y) - amount) * sy;
+    this->z = std::max(0.0, std::abs(this->z) - amount) * sz;
+    return *this;
 }

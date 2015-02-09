@@ -11,6 +11,7 @@ class GestureServer {
         GestureServer();
         ~GestureServer();
         int Initialize();
+        void StartTracking(XnUserID user);
         void StartTrackingGestures();
         
     private:

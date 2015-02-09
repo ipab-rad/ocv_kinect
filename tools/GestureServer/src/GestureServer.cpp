@@ -1,13 +1,17 @@
 #include <iostream>
+#include <algorithm>
+#include <cmath>
 #include <GestureServer.hpp>
 
 
 #define SAMPLE_PATH "SamplesConfig.xml"
 #define MAX_USERS 16
 
-#define NEUTRAL_Z -300.0
-#define INPUTEXTENT 300.0
-#define DEADZONE 0.2
+#define INPUTEXTENT 150.0
+#define DEADZONE 0.4
+#define LOGGING_POSITION true
+
+vec3 NEUTRAL_OFFSET = {75.0, 0, -150.0};
 
 
 GestureServer::GestureServer() {
@@ -74,7 +78,7 @@ XnStatus GestureServer::InitializeCallbacks() {
     XnCallbackHandle userCallbacks, calibStartCallback, calibCompleteCallback, poseDetectedCallback;
     this->userGenerator.RegisterUserCallbacks(OnNewUser, OnLostUser, NULL, userCallbacks);
     this->userGenerator.GetSkeletonCap().RegisterToCalibrationStart(OnCalibStart, NULL, calibStartCallback);
-    this->userGenerator.GetSkeletonCap().RegisterToCalibrationComplete(OnCalibComplete, NULL, calibCompleteCallback);
+    this->userGenerator.GetSkeletonCap().RegisterToCalibrationComplete(OnCalibComplete, this, calibCompleteCallback);
     if (this->userGenerator.GetSkeletonCap().NeedPoseForCalibration()) {
         printf("You need a calibration pose!!! Looks like you did something wrong, go fix the bug.\n");
     }
@@ -97,8 +101,13 @@ void XN_CALLBACK_TYPE GestureServer::OnCalibStart(xn::SkeletonCapability& cap, X
 void XN_CALLBACK_TYPE GestureServer::OnCalibComplete(xn::SkeletonCapability& cap, XnUserID user, XnCalibrationStatus eStatus, void* pCookie) {
     if (eStatus == XN_CALIBRATION_STATUS_OK) {
         printf("Calibration complete.\n");
-        //this->userGenerator.GetSkeletonCap().StartTracking(user);
+        GestureServer* server = static_cast<GestureServer*>(pCookie);
+        server->StartTracking(user);
     }
+}
+
+void GestureServer::StartTracking(XnUserID user) {
+    this->userGenerator.GetSkeletonCap().StartTracking(user);
 }
 
 void GestureServer::StartTrackingGestures() {
@@ -131,19 +140,17 @@ void GestureServer::SendGesture(xn::SkeletonCapability& skelly, XnUserID user) {
     hand.set(rightHandPos.position);
     shoulder.set(rightShoulderPos.position);
     vec3 movementVector = this->CalculateMovementVector(hand, shoulder);
+    if (LOGGING_POSITION) {
+        printf("Input: %.3f %.3f %.3f\n", movementVector.x, movementVector.y, movementVector.z);
+    }
+
 }
 
 vec3 GestureServer::CalculateMovementVector(const vec3& hand, const vec3& shoulder) {
-    vec3 dz = {0, 0, NEUTRAL_Z};
-    vec3 neutralPos = shoulder + dz;
-    vec3 direction = hand - neutralPos;
-    double magnitude = direction.mag() / INPUTEXTENT;
-    if (magnitude < DEADZONE) {
-        return vec3::zero();
-    } else {
-        double input = (magnitude-DEADZONE) / (1.0 - DEADZONE);
-        return direction.normalized() * input;
-    }
+    vec3 neutralPos = shoulder + NEUTRAL_OFFSET;
+    vec3 direction = (hand - neutralPos) / INPUTEXTENT;
+    vec3 movement = direction.squash(DEADZONE).shrink(DEADZONE) / (1-DEADZONE);
+    return movement;
 }
 
 

@@ -1,0 +1,2 @@
+Program("SimpleClient", "SimpleClient.cpp")
+Program("SimpleServer", "SimpleServer.cpp")
