@@ -53,6 +53,7 @@ struct vec3 {
     vec3 normalized();
     vec3& squash(double minimum);
     vec3& shrink(double amount);
+    vec3& clampcomponents(double minimum, double maximum);
 
 };
 

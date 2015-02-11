@@ -100,3 +100,10 @@ vec3& vec3::shrink(double amount) {
     this->z = std::max(0.0, std::abs(this->z) - amount) * sz;
     return *this;
 }
+
+vec3& vec3::clampcomponents(double minimum, double maximum) {
+    this->x = std::min(std::max(minimum, this->x), maximum);
+    this->y = std::min(std::max(minimum, this->y), maximum);
+    this->z = std::min(std::max(minimum, this->z), maximum);
+    return *this;
+}

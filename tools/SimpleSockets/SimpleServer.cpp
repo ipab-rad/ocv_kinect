@@ -1,73 +1,61 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <cstring>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <netdb.h>
+
+#define PORTNUM "6360"
 
 
 int main() {
     int status;
-    struct addrinfo host_info;
-    struct addrinfo *host_info_list;
+    struct addrinfo hints;
+    struct addrinfo* hosts;
+    struct addrinfo* host;
+    int sock;
+    bool socket_bound = false;
 
-    memset(&host_info, 0, sizeof host_info);
+    memset(&hints, 0, sizeof hints);
 
-    host_info.ai_family = AF_UNSPEC;
-    host_info.ai_socktype = SOCK_STREAM;
-    host_info.ai_flags = AI_PASSIVE; 
-    status = getaddrinfo(NULL, "5555", &host_info, &host_info_list);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_flags = AI_PASSIVE;
 
-    int sock = socket(host_info_list->ai_family, host_info_list->ai_socktype,
-            host_info_list->ai_protocol);
-    if (sock == -1) {
-        printf("Socket error.\n");
+    status = getaddrinfo(NULL, PORTNUM, &hints, &hosts);
+
+    for(host=hosts; host!=NULL; host=host->ai_next) {
+        sock = socket(host->ai_family, host->ai_socktype, host->ai_protocol);
+        if (sock == -1) continue;
+        socket_bound = true;
+        break;
     }
 
-    int yes = 1;
-    status = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
-    status = bind(sock, host_info_list->ai_addr, host_info_list->ai_addrlen);
-    if (status == -1)  printf("Binding error.\n");
-
-    status =  listen(sock, 5);
-    if (status == -1) {
-        printf("Listen error.\n");
+    if (!socket_bound) {
+        printf("Error getting socket.\n");
+        return 2;
     }
 
-    int new_sd;
-    struct sockaddr_storage their_addr;
-    socklen_t addr_size = sizeof(their_addr);
-    new_sd = accept(sock, (struct sockaddr *)&their_addr, &addr_size);
-    if (new_sd == -1)
-    {
-        std::cout << "listen error" << std::endl ;
-    }
-    else
-    {
-        std::cout << "Connection accepted. Using new sock : "  <<  new_sd << std::endl;
+    const char* message = "Recognition code 927, I am a potato.";
+    while (true) {
+        int numsent = sendto(sock, message, strlen(message), 0,
+                 host->ai_addr, host->ai_addrlen);
+
+        if (numsent == -1) {
+            printf("Send error.\n");
+        } else {
+            printf("Server sent %d bytes: %s\n", numsent, message);
+        }
     }
 
 
-    std::cout << "Waiting to recieve data..."  << std::endl;
-    ssize_t bytes_recieved;
-    char incomming_data_buffer[1000];
-    bytes_recieved = recv(new_sd, incomming_data_buffer,1000, 0);
-    // If no data arrives, the program will just wait here until some data arrives.
-    if (bytes_recieved == 0) std::cout << "host shut down." << std::endl ;
-    if (bytes_recieved == -1)std::cout << "recieve error!" << std::endl ;
-    std::cout << bytes_recieved << " bytes recieved :" << std::endl ;
-    incomming_data_buffer[bytes_recieved] = '\0';
-    std::cout << incomming_data_buffer << std::endl;
-
-
-    std::cout << "send()ing back a message..."  << std::endl;
-    char *msg = "-0.947 -1.000 -0.545";
-    int len;
-    ssize_t bytes_sent;
-    len = strlen(msg);
-    bytes_sent = send(new_sd, msg, len, 0);
-
-    std::cout << "Stopping server..." << std::endl;
-    freeaddrinfo(host_info_list);
-    close(new_sd);
+    freeaddrinfo(hosts);
     close(sock);
+    return 0;
 }

@@ -11,8 +11,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#define PORTNUM "6360"
-#define BUFFERSIZE 100
+#include <gesture.hpp>
 
 
 // Returns the correct sockaddr for IPv4 or IPv6
@@ -24,7 +23,12 @@ void* get_in_addr(struct sockaddr *sa) {
     }
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        printf("Usage: MockClient server_ip port\n");
+        exit(1);
+    }
+
     int status;
     struct addrinfo hints;
     struct addrinfo* hosts;
@@ -33,7 +37,9 @@ int main() {
     bool socket_bound = false;
     struct sockaddr_storage server_addr;
     socklen_t addr_len = sizeof server_addr;
-    char buffer[BUFFERSIZE];
+
+    int buffer_size = gesture_size();
+    char buffer[buffer_size];
 
     memset(&hints, 0, sizeof hints);
 
@@ -41,7 +47,7 @@ int main() {
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags = AI_PASSIVE;
 
-    status = getaddrinfo(NULL, PORTNUM, &hints, &hosts);
+    status = getaddrinfo(argv[1], argv[2], &hints, &hosts);
 
     for(host=hosts; host!=NULL; host=host->ai_next) {
         sock = socket(host->ai_family, host->ai_socktype, host->ai_protocol);
@@ -60,17 +66,18 @@ int main() {
         return 2;
     }
 
-    printf("Waiting for recognition code: \n");
-    int numrecd = recvfrom(sock, buffer, BUFFERSIZE-1, 0,
-        (struct sockaddr*) &server_addr, &addr_len);
-    if (numrecd == -1) {
-        printf("Error receiving code.\n");
-        exit(1);
-    }
+    while (true) {
+        int numrecd = recvfrom(sock, buffer, buffer_size, 0,
+            (struct sockaddr*) &server_addr, &addr_len);
+        if (numrecd == -1) {
+            printf("Error receiving.\n");
+            exit(1);
+        }
 
-    printf("Received recognition code, %d bytes.\n", numrecd);
-    buffer[numrecd] = '\0';
-    printf("==> %s\n", buffer);
+        printf("Received %d bytes:\n", numrecd);
+        gesture g = deserialize_gesture(buffer, buffer_size);
+        printf("Movement: (%.3f %.3f %.3f)", g.movement.x, g.movement.y, g.movement.z);
+    }
 
     freeaddrinfo(hosts);
     close(sock);

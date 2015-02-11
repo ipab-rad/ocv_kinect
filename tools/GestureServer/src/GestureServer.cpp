@@ -9,13 +9,15 @@
 
 #define INPUTEXTENT 150.0
 #define DEADZONE 0.4
-#define LOGGING_POSITION true
+#define LOGGING_POSITION false
 
 vec3 NEUTRAL_OFFSET = {75.0, 0, -150.0};
 
 
-GestureServer::GestureServer() {
+GestureServer::GestureServer(const char* client_ip, const char* port) {
     this->initialized = false;
+    this->client_ip = client_ip;
+    this->port = port;
 }
 
 GestureServer::~GestureServer() {
@@ -23,6 +25,8 @@ GestureServer::~GestureServer() {
         this->userGenerator.Release();
         this->scriptNode.Release();
         this->context.Release();
+        freeaddrinfo(this->hosts);
+        close(this->sock);
     }
 }
 
@@ -38,6 +42,14 @@ int GestureServer::Initialize() {
     if (status != XN_STATUS_OK) return status;
 
     this->InitializeCallbacks();
+
+    int sockstatus = this->InitializeSocket();
+    if (sockstatus != 0) {
+        printf("Failed to initialize socket.\n");
+        return sockstatus;
+    }
+
+    this->buffer_size = gesture_size();
 
     this->initialized = true;
 }
@@ -85,6 +97,39 @@ XnStatus GestureServer::InitializeCallbacks() {
     this->userGenerator.GetSkeletonCap().SetSkeletonProfile(XN_SKEL_PROFILE_ALL);
 }
 
+int GestureServer::InitializeSocket() {
+    int status;
+    struct addrinfo hints;
+    struct addrinfo* host;
+    bool socket_bound = false;
+
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_flags = AI_PASSIVE;
+
+    status = getaddrinfo(this->client_ip, this->port, &hints, &hosts);
+    if (status != 0) {
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
+        return 1;
+    }
+
+    for(host=hosts; host!=NULL; host=host->ai_next) {
+        sock = socket(host->ai_family, host->ai_socktype, host->ai_protocol);
+        if (sock == -1) continue;
+
+        socket_bound = true;
+        this->host = host;
+        this->sock = sock;
+        break;
+    }
+
+    if (!socket_bound) {
+        printf("Error getting socket.\n");
+        return 2;
+    }
+}
+
 void XN_CALLBACK_TYPE GestureServer::OnNewUser(xn::UserGenerator& gen, XnUserID user, void* pCookie) {
     printf("New user found.\n");
     gen.GetSkeletonCap().RequestCalibration(user, true);
@@ -113,7 +158,7 @@ void GestureServer::StartTracking(XnUserID user) {
 void GestureServer::StartTrackingGestures() {
     XnUserID users[MAX_USERS];
 
-    printf("Beginning gesture tracking:");
+    printf("Beginning gesture tracking:\n");
     this->context.StartGeneratingAll();
     while (!xnOSWasKeyboardHit()) {
         this->context.WaitOneUpdateAll(this->userGenerator);
@@ -143,19 +188,37 @@ void GestureServer::SendGesture(xn::SkeletonCapability& skelly, XnUserID user) {
     if (LOGGING_POSITION) {
         printf("Input: %.3f %.3f %.3f\n", movementVector.x, movementVector.y, movementVector.z);
     }
-
+    gesture g;
+    g.movement = movementVector;
+    this->SendData(g);
 }
 
 vec3 GestureServer::CalculateMovementVector(const vec3& hand, const vec3& shoulder) {
     vec3 neutralPos = shoulder + NEUTRAL_OFFSET;
     vec3 direction = (hand - neutralPos) / INPUTEXTENT;
     vec3 movement = direction.squash(DEADZONE).shrink(DEADZONE) / (1-DEADZONE);
-    return movement;
+    return movement.clampcomponents(-1.0, 1.0);
+}
+
+void GestureServer::SendData(const gesture& gesture) {
+    char buffer[this->buffer_size];
+    serialize_gesture(gesture, buffer, this->buffer_size);
+    int sentbytes = sendto(this->sock, buffer, this->buffer_size, 0,
+        this->host->ai_addr, this->host->ai_addrlen);
+    if (sentbytes == -1) {
+        printf("Error sending data.\n");
+    } else {
+        printf("Send %d bytes.\n", sentbytes);
+    }
 }
 
 
-int main() {
-    GestureServer* gs = new GestureServer();
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        printf("Usage: GestureServer client_ip port\n");
+        exit(1);
+    }
+    GestureServer* gs = new GestureServer(argv[1], argv[2]);
     gs->Initialize();
     gs->StartTrackingGestures();
     delete gs;

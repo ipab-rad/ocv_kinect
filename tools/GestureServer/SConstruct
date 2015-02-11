@@ -1,3 +1,8 @@
-Program("./bin/GestureServer", ["./src/GestureServer.cpp", "./src/vec3.cpp"],
+Program("./bin/GestureServer", Glob("./src/*.cpp") + Glob("./src/*.c"),
     CPPPATH=["./include", "../../external/OpenNI/Include"],
     LIBPATH="../../external/OpenNI/Lib/", LIBS="OpenNI")
+
+Program("./bin/MockClient",
+        ["./src/MockClient/MockClient.cpp", "./src/vec3.cpp", "./src/tpl.c"],
+        CPPPATH=["./include", "../../external/OpenNI/Include"],
+        LIBPATH="../../external/OpenNI/Lib/", LIBS="OpenNI")
