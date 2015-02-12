@@ -208,7 +208,9 @@ void GestureServer::SendData(const gesture& gesture) {
     if (sentbytes == -1) {
         printf("Error sending data.\n");
     } else {
-        printf("Send %d bytes.\n", sentbytes);
+        printf("Sent %d bytes: ", sentbytes);
+        printf("%s", buffer);
+        printf("Movement: (%.3f %.3f %.3f)\n", gesture.movement.x, gesture.movement.y, gesture.movement.z);
     }
 }
 

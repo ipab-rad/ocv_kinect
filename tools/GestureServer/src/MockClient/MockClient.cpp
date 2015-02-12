@@ -74,9 +74,10 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
 
-        printf("Received %d bytes:\n", numrecd);
+        printf("Received %d bytes: ", numrecd);
+        printf("%s", buffer);
         gesture g = deserialize_gesture(buffer, buffer_size);
-        printf("Movement: (%.3f %.3f %.3f)", g.movement.x, g.movement.y, g.movement.z);
+        printf("  Movement: (%.3f %.3f %.3f)\n", g.movement.x, g.movement.y, g.movement.z);
     }
 
     freeaddrinfo(hosts);
