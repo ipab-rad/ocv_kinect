@@ -1,0 +1,7 @@
+SharedLibrary("./bin/CameraControl", ["./src/CameraControl.cpp"],
+    CPPPATH=[
+        "./include",
+        "/usr/include/gazebo-4.1",
+        "/usr/include/sdformat-2.0"],
+    LIBPATH=["/usr/lib/x86_64-linux-gnu/gazebo-4.1/plugins"],
+    LIBS=[])
