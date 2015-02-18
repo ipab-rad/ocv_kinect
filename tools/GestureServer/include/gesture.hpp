@@ -50,7 +50,8 @@ void test_serialization() {
     gesture g1;
     g1.movement = vec3::zero();
 
-    tpl_node *tn0;
+    // This works
+    /*tpl_node *tn0;
     tn0 = tpl_map(gesture_format_string, &g0);
     tpl_pack(tn0, 0);
     tpl_dump(tn0, TPL_MEM|TPL_PREALLOCD, buffer, size);
@@ -60,10 +61,12 @@ void test_serialization() {
     tn1 = tpl_map(gesture_format_string, &g1);
     tpl_load(tn1, TPL_MEM, buffer, size);
     tpl_unpack(tn1, 0);
-    tpl_free(tn1);
+    tpl_free(tn1);*/
 
-    //printf("Original gesture: %.3f %.3f %.3f");
-    //printf("Serialized gesture: %.3f %.3f %.3f");
+    serialize_gesture(g0, buffer, size);
+    g1 = deserialize_gesture(buffer, size);
+
+    printf("Original gesture: %.3f %.3f %.3f", g0.movement.x, g0.movement.y, g0.movement.z);
+    printf("Serialized gesture: %.3f %.3f %.3f", g1.movement.x, g1.movement.y, g1.movement.z);
 }
-
 #endif
