@@ -14,7 +14,7 @@ First, set the plugin path for Gazebo by sourcing the `gazebopluginpath` file.
 
 Then start the Gazebo server:
 
-	`$ gzserver ...`
+	`$ gzserver`
 
 Then finally, start the client with the CameraControl plugin:
 

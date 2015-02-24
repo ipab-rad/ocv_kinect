@@ -1,4 +1,4 @@
-CPPFLAGS=-g -I../../../OpenNI/Include
+CPPFLAGS=-g -I../../../OpenNI-Redist/Include
 LDFLAGS=-g
 LDLIBS=-L../../../OpenNI/Platform/Linux/Bin/x64-Release/ -lOpenNI
 

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ugstudents/Git/Paul/ocv_kinect/plugins/CameraControl/cameracontrol.cpp
+gazebo/gazebo.hh
+-
+gazebo/gui/GuiIface.hh
+-
+gazebo/rendering/rendering.hh
+-
+gazebo/math/gzmath.hh
+-
+math.h
+-
+cameracontrol.hpp
+/home/ugstudents/Git/Paul/ocv_kinect/plugins/CameraControl/cameracontrol.hpp
+
+/home/ugstudents/Git/Paul/ocv_kinect/plugins/CameraControl/cameracontrol.hpp
+gazebo/math/gzmath.hh
+-
+

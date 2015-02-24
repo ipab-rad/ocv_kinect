@@ -1,0 +1,1 @@
+/home/ugstudents/Git/Paul/ocv_kinect/plugins/KeyboardController/CMakeFiles/keyboardcontroller.dir
