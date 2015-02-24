@@ -5,6 +5,9 @@
 
 #include <CameraControl.hpp>
 
+#define SERVER_IP "127.0.0.1"
+#define PORT "6360"
+
 
 namespace gazebo {
 
@@ -28,18 +31,24 @@ namespace gazebo {
 
     }
 
-    void CameraControl::Initialize() {
+    void CameraControl::Setup() {
         printf("Initializing... ");
         this->cam = gui::get_active_camera();
+        this->InitializeSocket();
         this->initialized = true;
+        this->buffer_size = gesture_size();
         printf("Initialized.");
     }
 
+    void CameraControl::InitializeSocket() {
+        struct
+    }
+
     void CameraControl::Update() {
-        if (!initialized) this->Initialize();
+        if (!initialized) this->Setup();
         math::Vector3 pos = this->cam->GetWorldPosition();
         pos += this->inputVector;
-        this->can->SetWorldPosition(pos);
+        this->cam->SetWorldPosition(pos);
     }
 
     GZ_REGISTER_SYSTEM_PLUGIN(CameraControl)
