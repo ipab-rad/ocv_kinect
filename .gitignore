@@ -9,7 +9,6 @@
 *.pch
 
 # Compiled Dynamic libraries
-*.so
 *.dylib
 *.dll
 
@@ -31,4 +30,4 @@
 bin/
 
 # Include all of the external folder
-!external/
+!external/*
