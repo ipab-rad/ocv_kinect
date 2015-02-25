@@ -1,0 +1,17 @@
+Import("loc")
+Import("env")
+
+env.Program("bin/GestureServer",
+    ["src/GestureServer.cpp"] + loc["tpl_src"] + loc["util_src"],
+    CPPPATH=["include"] + loc["openni_inc"] + loc["tpl_inc"] + loc["util_inc"],
+    LIBPATH=loc["openni_lib"], LIBS="OpenNI")
+
+env.Program("bin/MockClient",
+        ["src/Mock/MockClient.cpp"] + loc["util_src"] + loc["tpl_src"],
+        CPPPATH=["include"] + loc["openni_inc"] + loc["tpl_inc"] + loc["util_inc"],
+        LIBPATH=loc["openni_lib"], LIBS="OpenNI")
+
+env.Program("bin/MockServer",
+        ["src/Mock/MockServer.cpp"] + loc["util_src"] + loc["tpl_src"],
+        CPPPATH=["include"] + loc["openni_inc"] + loc["tpl_inc"] + loc["util_inc"],
+        LIBPATH=loc["openni_lib"], LIBS="OpenNI")

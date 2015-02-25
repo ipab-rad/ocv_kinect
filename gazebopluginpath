@@ -1,1 +1,1 @@
-export GAZEBO_PLUGIN_PATH=$(GAZEBO_PLUGIN_PATH):./plugins/CameraControl2/bin
+export GAZEBO_PLUGIN_PATH=$(GAZEBO_PLUGIN_PATH):./plugins/CameraControl/bin

@@ -1,0 +1,14 @@
+Import("loc")
+Import("env")
+
+env.SharedLibrary("bin/CameraControl",
+    ["src/CameraControl.cpp"] + loc["util_src"] + loc["tpl_src"],
+    CPPPATH=[
+        "include",
+        "/usr/local/include/gazebo-4.1",
+        "/usr/include/OGRE",
+        "/usr/include/OGRE/Terrain",
+        "/usr/include/OGRE/Paging",
+        "/usr/include/sdformat-2.2"] + loc["tpl_inc"] + loc["util_inc"] + loc["openni_inc"],
+    LIBPATH=["/usr/lib/x86_64-linux-gnu/gazebo-4.1/plugins"] + loc["openni_lib"],
+    LIBS=["OpenNI"])

@@ -39,11 +39,14 @@ namespace gazebo {
             struct addrinfo* host;
             int sock;
             int buffer_size;
+            struct sockaddr_storage server_addr;
+            socklen_t addr_len;
 
             void Init();
-            void InitializeSocket();
+            int InitializeSocket();
             void Setup();
             void Update();
+            gesture ReceiveGesture();
     };
 
 }
