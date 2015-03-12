@@ -207,10 +207,6 @@ void GestureServer::SendData(const gesture& gesture) {
         this->host->ai_addr, this->host->ai_addrlen);
     if (sentbytes == -1) {
         printf("Error sending data.\n");
-    } else {
-        printf("Sent %d bytes: ", sentbytes);
-        printf("%s", buffer);
-        printf("Movement: (%.3f %.3f %.3f)\n", gesture.movement.x, gesture.movement.y, gesture.movement.z);
     }
 }
 
