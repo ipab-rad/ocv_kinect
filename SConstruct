@@ -11,5 +11,6 @@ env = Environment()
 
 SConscript([
     "tools/GestureServer/SConscript",
-    "plugins/CameraControl/SConscript"
+    #"plugins/CameraControl/SConscript",
+    "plugins/OccamControl/SConscript"
     ], exports=["loc", "env"])

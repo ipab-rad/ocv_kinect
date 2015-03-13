@@ -111,6 +111,7 @@
         <kinematic>1</kinematic>
         <gravity>0</gravity>
       </link>
+      <plugin name="OccamControl" filename="../plugins/OccamControl/bin/libOccamControl.so"/>
     </model>
 
     <model name='metrecube'>
