@@ -76,14 +76,14 @@
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>0 0 1 0 0 0</pose>
+        <pose>-3 0 1 0 0 0</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
 
     <model name='occam'>
       <static>1</static>
-      <pose>0 0 1 0 0 0</pose>
+      <pose>-3 0 1 0 0 0</pose>
       <link name='link'>
         <collision name='collision'>
           <geometry>
@@ -126,7 +126,7 @@
 
 <model name='Target1'>
     <static>1</static>
-    <pose>-9.25 -0.75 1  0 0 1.570796</pose>
+    <pose>7.86 5.16 0.09  1.570796 0 1.57076</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -138,7 +138,7 @@
 
 <model name='Target2'>
     <static>1</static>
-    <pose>11.33 -5.654 5.346  0 0 2.4360598</pose>
+    <pose>5 -7 6.5  1.570796 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -150,7 +150,7 @@
 
 <model name='Target3'>
     <static>1</static>
-    <pose>-8 9 10  1.570796 0 3.141597</pose>
+    <pose>12.25 -4.25 1.25  0 0 1.570796</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -162,7 +162,7 @@
 
 <model name='Target4'>
     <static>1</static>
-    <pose>-2 -10.5 2.5  1.570796 0 1.355253E-20</pose>
+    <pose>1.45 11.66 2.26  1.192093E-07 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -172,21 +172,9 @@
     </link>
 </model>
 
-<model name='Target6'>
-    <static>1</static>
-    <pose>5.961 0 8  0 0 1.570796</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Target6.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
 <model name='Target5'>
     <static>1</static>
-    <pose>3.75 13.5 1.5  0 0 1.570796</pose>
+    <pose>0 -14.75 1.75  1.192093E-07 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -198,7 +186,7 @@
 
 <model name='Target7'>
     <static>1</static>
-    <pose>4.25 14.7 2.7  1.192093E-07 0 0</pose>
+    <pose>8.49 -14.16 9.12  5.146477 6.282986 4.712609</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -208,9 +196,81 @@
     </link>
 </model>
 
-<model name='BigPillar'>
+<model name='Target6'>
     <static>1</static>
-    <pose>-8 9 0  0 0 0</pose>
+    <pose>-11.25 4.5 0.1  1.570796 0 3.1415926</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Target6.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Wall 1'>
+    <static>1</static>
+    <pose>-10.5 5 0  0 0 0</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Wall.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Ruin'>
+    <static>1</static>
+    <pose>0.2763519 -11.99024 0  0 0 3.1415926</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Ruin.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='BigPillar 5'>
+    <static>1</static>
+    <pose>3 11 0  0 0 0</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/BigPillar.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='BigPillar 4'>
+    <static>1</static>
+    <pose>1.5 11 0  0 0 0</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/BigPillar.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='BigPillar 2'>
+    <static>1</static>
+    <pose>-4.5 11 0  0 0 0</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/BigPillar.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='BigPillar 3'>
+    <static>1</static>
+    <pose>0 11 0  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -222,7 +282,7 @@
 
 <model name='BigPillar 1'>
     <static>1</static>
-    <pose>-8 -9 0  0 0 0</pose>
+    <pose>-6 11 0  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -232,37 +292,13 @@
     </link>
 </model>
 
-<model name='Fence'>
+<model name='BigPillar'>
     <static>1</static>
-    <pose>-20 -10 0  0 0 1.570797</pose>
+    <pose>-3 11 0  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
-                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Fence 2'>
-    <static>1</static>
-    <pose>20 10 0  0 0 1.570797</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Fence 5'>
-    <static>1</static>
-    <pose>9.969539 -20.03046 0  0 0 3.141594</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+                <mesh><uri>file://Meshes/BigPillar.dae</uri></mesh>
             </geometry>
         </visual>
     </link>
@@ -271,66 +307,6 @@
 <model name='Fence 7'>
     <static>1</static>
     <pose>-10.03044 19.96956 0  0 0 3.141594</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Fence 4'>
-    <static>1</static>
-    <pose>-10.03046 -20.03045 -1.507998E-05  0 0 3.141594</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Fence 1'>
-    <static>1</static>
-    <pose>-20 10 0  0 0 1.570797</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Stall'>
-    <static>1</static>
-    <pose>-2 -10 0  0 0 3.1415926</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Stall.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Acropolis'>
-    <static>1</static>
-    <pose>5 0 0  0 0 3.1415926</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Acropolis.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Fence 3'>
-    <static>1</static>
-    <pose>20 -10 0  0 0 1.570797</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -352,9 +328,117 @@
     </link>
 </model>
 
+<model name='Fence 5'>
+    <static>1</static>
+    <pose>9.969539 -20.03046 0  0 0 3.141594</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Fence 4'>
+    <static>1</static>
+    <pose>-10.03046 -20.03045 -1.507998E-05  0 0 3.141594</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Fence 3'>
+    <static>1</static>
+    <pose>20 -10 0  0 0 1.570797</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Fence 2'>
+    <static>1</static>
+    <pose>20 10 0  0 0 1.570797</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Fence 1'>
+    <static>1</static>
+    <pose>-20 10 0  0 0 1.570797</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Fence'>
+    <static>1</static>
+    <pose>-20 -10 0  0 0 1.570797</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Fence.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Stall'>
+    <static>1</static>
+    <pose>7.88 5.62 0  0 0 4.712391</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Stall.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Acropolis'>
+    <static>1</static>
+    <pose>10.14816 -3.851828 0  0 0 1.570794</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Acropolis.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Roof'>
+    <static>1</static>
+    <pose>10.14817 -9.851828 6.5  0 0 3.141591</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Roof.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
 <model name='Pillar'>
     <static>1</static>
-    <pose>7 -6 2.5  0 0 0</pose>
+    <pose>4.148166 -5.851841 2.5  0 0 1.570794</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -366,7 +450,7 @@
 
 <model name='Pillar 1'>
     <static>1</static>
-    <pose>15 -6 2.5  0 0 0</pose>
+    <pose>4.148181 -13.85184 2.5  0 0 1.570794</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -378,7 +462,7 @@
 
 <model name='Pillar 2'>
     <static>1</static>
-    <pose>11 -6 2.5  0 0 0</pose>
+    <pose>4.148174 -9.851841 2.5  0 0 1.570794</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -390,7 +474,19 @@
 
 <model name='Pillar 5'>
     <static>1</static>
-    <pose>7 6 2.5  0 0 0</pose>
+    <pose>16.14817 -5.851814 2.5  0 0 1.570794</pose>
+    <link name='link'>
+        <visual name='visual'>
+            <geometry>
+                <mesh><uri>file://Meshes/Pillar.dae</uri></mesh>
+            </geometry>
+        </visual>
+    </link>
+</model>
+
+<model name='Pillar 4'>
+    <static>1</static>
+    <pose>16.14818 -13.85181 2.5  0 0 1.570794</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -402,7 +498,7 @@
 
 <model name='Pillar 3'>
     <static>1</static>
-    <pose>11 6 2.5  0 0 0</pose>
+    <pose>16.14817 -9.851814 2.5  0 0 1.570794</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -412,21 +508,9 @@
     </link>
 </model>
 
-<model name='Ruin'>
-    <static>1</static>
-    <pose>-2.5 12 0  0 0 0</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Ruin.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
 <model name='Wall'>
     <static>1</static>
-    <pose>-9.5 0 0  0 0 0</pose>
+    <pose>-12 5 0  0 0 3.141608</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -436,29 +520,6 @@
     </link>
 </model>
 
-<model name='Pillar 4'>
-    <static>1</static>
-    <pose>15 6 2.5  0 0 0</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Pillar.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
-
-<model name='Roof'>
-    <static>1</static>
-    <pose>11 0 6.5  0 0 1.570797</pose>
-    <link name='link'>
-        <visual name='visual'>
-            <geometry>
-                <mesh><uri>file://Meshes/Roof.dae</uri></mesh>
-            </geometry>
-        </visual>
-    </link>
-</model>
 
 
 
@@ -482,11 +543,5 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
 
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose>5 -5 2 0 0.275643 2.35619</pose>
-        <view_controller>orbit</view_controller>
-      </camera>
-    </gui>
   </world>
 </sdf>

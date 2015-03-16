@@ -51,9 +51,13 @@ int main(int argc, char* argv[]) {
 
     for(host=hosts; host!=NULL; host=host->ai_next) {
         sock = socket(host->ai_family, host->ai_socktype, host->ai_protocol);
-        if (sock == -1) continue;
+        if (sock == -1) {
+            printf("Socket error.\n");
+            continue;
+        };
         int bindstatus = bind(sock, host->ai_addr, host->ai_addrlen);
         if (bindstatus == -1) {
+            printf("Bind error: %d, %s\n", errno, strerror(errno));
             close(sock);
             continue;
         }

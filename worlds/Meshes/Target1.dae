@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.69.0 r60991</authoring_tool>
+    </contributor>
+    <created>2015-03-16T17:04:50</created>
+    <modified>2015-03-16T17:04:50</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="TargetNumbers_png" name="TargetNumbers_png">
+      <init_from>TargetNumbers.png</init_from>
+    </image>
+  </library_images>
+  <library_effects>
+    <effect id="Target-effect">
+      <profile_COMMON>
+        <newparam sid="TargetNumbers_png-surface">
+          <surface type="2D">
+            <init_from>TargetNumbers_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="TargetNumbers_png-sampler">
+          <sampler2D>
+            <source>TargetNumbers_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0.5 0.5 0.5 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="TargetNumbers_png-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="Target-material" name="Target">
+      <instance_effect url="#Target-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Circle-mesh" name="Circle">
+      <mesh>
+        <source id="Circle-mesh-positions">
+          <float_array id="Circle-mesh-positions-array" count="18">0.2165063 0.125 0 -0.2165063 0.125 0 0 -0.25 0 0.2165063 0.125 0.06 -0.2165063 0.125 0.05999994 0 -0.25 0.06</float_array>
+          <technique_common>
+            <accessor source="#Circle-mesh-positions-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Circle-mesh-normals">
+          <float_array id="Circle-mesh-normals-array" count="24">0.8660255 -0.5 0 -0.8660253 -0.5000001 0 0 1 -2.48353e-7 -1.37651e-7 0 1 1.41093e-7 0 -1 0.8660255 -0.5 1.24176e-7 -0.8660253 -0.5000001 1.24176e-7 0 1 -1.24176e-7</float_array>
+          <technique_common>
+            <accessor source="#Circle-mesh-normals-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Circle-mesh-map-0">
+          <float_array id="Circle-mesh-map-0-array" count="48">0.4850072 0.5959959 0.4960274 0.624235 0.4853516 0.5584584 0.4708876 0.6235463 0.4850072 0.5959959 0.4412709 0.6466197 0.4960274 0.624235 0.4708876 0.6235463 0.5294322 0.6466197 -0.007123649 0.8551003 0.1206054 0.6185325 0.2483345 0.8551003 0.2483345 0.8551003 -0.007123649 0.8551003 0.1206054 0.6185325 0.4960274 0.624235 0.5294322 0.6466197 0.4853516 0.5584584 0.4850072 0.5959959 0.4853516 0.5584584 0.4412709 0.6466197 0.4708876 0.6235463 0.4412709 0.6466197 0.5294322 0.6466197</float_array>
+          <technique_common>
+            <accessor source="#Circle-mesh-map-0-array" count="24" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Circle-mesh-vertices">
+          <input semantic="POSITION" source="#Circle-mesh-positions"/>
+        </vertices>
+        <polylist material="Target-material" count="8">
+          <input semantic="VERTEX" source="#Circle-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Circle-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Circle-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 </vcount>
+          <p>2 0 0 0 0 1 5 0 2 1 1 3 2 1 4 4 1 5 0 2 6 1 2 7 3 2 8 4 3 9 5 3 10 3 3 11 1 4 12 0 4 13 2 4 14 0 5 15 3 5 16 5 5 17 2 6 18 5 6 19 4 6 20 1 7 21 4 7 22 3 7 23</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Target1" name="Target1" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 -1.62921e-7 -1 0.03 0 1 -1.62921e-7 0 0 0 0 1</matrix>
+        <instance_geometry url="#Circle-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Target-material" target="#Target-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

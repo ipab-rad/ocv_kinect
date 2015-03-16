@@ -6,6 +6,7 @@
 #define SERVER_IP "127.0.0.1"
 #define PORT "6360"
 #define MOVESPEED 0.02
+#define DUMMIED true
 
 namespace gazebo {
 
@@ -32,7 +33,7 @@ namespace gazebo {
     void OccamControl::OnUpdate(const common::UpdateInfo & _info) {
         if (!initialized) {
             this->Setup();
-        } else {
+        } else if (!DUMMIED) {
             struct gesture g = this->ReceiveGesture();
             this->MoveCamera(g);
         }

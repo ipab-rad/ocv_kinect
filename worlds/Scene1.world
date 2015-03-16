@@ -354,7 +354,7 @@
 
 <model name='Pillar'>
     <static>1</static>
-    <pose>7 -6 2.5  0 0 0</pose>
+    <pose>7 -6 2.4  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -366,7 +366,7 @@
 
 <model name='Pillar 1'>
     <static>1</static>
-    <pose>15 -6 2.5  0 0 0</pose>
+    <pose>15 -6 2.4  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -378,7 +378,7 @@
 
 <model name='Pillar 2'>
     <static>1</static>
-    <pose>11 -6 2.5  0 0 0</pose>
+    <pose>11 -6 2.4  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -390,7 +390,7 @@
 
 <model name='Pillar 5'>
     <static>1</static>
-    <pose>7 6 2.5  0 0 0</pose>
+    <pose>7 6 2.4  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -402,7 +402,7 @@
 
 <model name='Pillar 3'>
     <static>1</static>
-    <pose>11 6 2.5  0 0 0</pose>
+    <pose>11 6 2.4  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -438,7 +438,7 @@
 
 <model name='Pillar 4'>
     <static>1</static>
-    <pose>15 6 2.5  0 0 0</pose>
+    <pose>15 6 2.4  0 0 0</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -450,7 +450,7 @@
 
 <model name='Roof'>
     <static>1</static>
-    <pose>11 0 6.5  0 0 1.570797</pose>
+    <pose>11 0 6.4  0 0 1.570797</pose>
     <link name='link'>
         <visual name='visual'>
             <geometry>
@@ -481,12 +481,5 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
-
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose>5 -5 2 0 0.275643 2.35619</pose>
-        <view_controller>orbit</view_controller>
-      </camera>
-    </gui>
   </world>
 </sdf>
