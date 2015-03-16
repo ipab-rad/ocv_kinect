@@ -3,10 +3,10 @@
 
 #include <OccamControl.hpp>
 
-#define SERVER_IP "127.0.0.1"
+#define CLIENT_IP "129.215.96.52"
 #define PORT "6360"
-#define MOVESPEED 0.02
-#define DUMMIED true
+#define MOVESPEED 0.01
+#define DUMMIED false
 
 namespace gazebo {
 
@@ -79,7 +79,7 @@ namespace gazebo {
         hints.ai_socktype = SOCK_DGRAM;
         hints.ai_flags = AI_PASSIVE;
 
-        status = getaddrinfo(SERVER_IP, PORT, &hints, &hosts);
+        status = getaddrinfo(CLIENT_IP, PORT, &hints, &hosts);
         if (status != 0) {
             fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
             return 1;
