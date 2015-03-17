@@ -48,6 +48,7 @@ class GestureServer {
         void SendGesture(xn::SkeletonCapability& skelly, XnUserID user);
         void SendData(const gesture& gesture);
         vec3 CalculateMovementVector(const vec3& hand, const vec3& shoulder);
+        double CalculateRotation(const vec3& hand, const vec3& shoulder);
 
         static void XN_CALLBACK_TYPE OnNewUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);
         static void XN_CALLBACK_TYPE OnLostUser(xn::UserGenerator& gen, XnUserID nId, void* pCookie);

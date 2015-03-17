@@ -11,7 +11,8 @@
 #define DEADZONE 0.4
 #define LOGGING_POSITION false
 
-vec3 NEUTRAL_OFFSET = {75.0, 0, -150.0};
+vec3 NEUTRAL_OFFSET_RIGHT = {75.0, 0, -150.0};
+vec3 NEUTRAL_OFFSET_LEFT = {-75.0, 0, -150.0};
 
 
 GestureServer::GestureServer(const char* client_ip, const char* port) {
@@ -178,26 +179,43 @@ void GestureServer::StartTrackingGestures() {
 void GestureServer::SendGesture(xn::SkeletonCapability& skelly, XnUserID user) {
     XnSkeletonJointPosition rightShoulderPos;
     XnSkeletonJointPosition rightHandPos;
+    XnSkeletonJointPosition leftShoulderPos;
+    XnSkeletonJointPosition leftHandPos;
     skelly.GetSkeletonJointPosition(user, XN_SKEL_RIGHT_SHOULDER, rightShoulderPos);
     skelly.GetSkeletonJointPosition(user, XN_SKEL_RIGHT_HAND, rightHandPos);
-    vec3 hand;
-    vec3 shoulder;
-    hand.set(rightHandPos.position);
-    shoulder.set(rightShoulderPos.position);
-    vec3 movementVector = this->CalculateMovementVector(hand, shoulder);
+    skelly.GetSkeletonJointPosition(user, XN_SKEL_LEFT_SHOULDER, leftShoulderPos);
+    skelly.GetSkeletonJointPosition(user, XN_SKEL_LEFT_HAND, leftHandPos);
+    vec3 rhand;
+    vec3 rshoulder;
+    rhand.set(rightHandPos.position);
+    rshoulder.set(rightShoulderPos.position);
+    vec3 lhand;
+    vec3 lshoulder;
+    lhand.set(leftHandPos.position);
+    lshoulder.set(leftShoulderPos.position);
+    vec3 movementVector = this->CalculateMovementVector(rhand, rshoulder);
+    double rotation = this->CalculateRotation(lhand, lshoulder);
     if (LOGGING_POSITION) {
         printf("Input: %.3f %.3f %.3f\n", movementVector.x, movementVector.y, movementVector.z);
     }
     gesture g;
     g.movement = movementVector;
+    g.rotation = rotation;
     this->SendData(g);
 }
 
 vec3 GestureServer::CalculateMovementVector(const vec3& hand, const vec3& shoulder) {
-    vec3 neutralPos = shoulder + NEUTRAL_OFFSET;
+    vec3 neutralPos = shoulder + NEUTRAL_OFFSET_RIGHT;
     vec3 direction = (hand - neutralPos) / INPUTEXTENT;
     vec3 movement = direction.squash(DEADZONE).shrink(DEADZONE) / (1-DEADZONE);
     return movement.clampcomponents(-1.0, 1.0);
+}
+
+double GestureServer::CalculateRotation(const vec3& hand, const vec3& shoulder) {
+    vec3 neutralPos = shoulder + NEUTRAL_OFFSET_LEFT;
+    vec3 direction = (hand - neutralPos) / INPUTEXTENT;
+    vec3 movement = direction.squash(DEADZONE).shrink(DEADZONE) / (1-DEADZONE);
+    return movement.clampcomponents(-1.0, 1.0).x;
 }
 
 void GestureServer::SendData(const gesture& gesture) {

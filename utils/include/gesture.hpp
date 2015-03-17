@@ -5,12 +5,11 @@
 #include <tpl.h>
 
 
-char* gesture_format_string = "S($(fff))";
+char* gesture_format_string = "S($(fff)f)";
 
 struct gesture {
-
     struct vec3 movement;
-
+    double rotation;
 };
 
 size_t gesture_size() {

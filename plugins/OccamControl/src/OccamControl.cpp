@@ -41,13 +41,11 @@ namespace gazebo {
 
     void OccamControl::MoveCamera(gesture g) {
         math::Pose pose = this->model->GetWorldPose();
-        math::Pose delta;
-        delta.Set(
-            g.movement.x*MOVESPEED,
-            g.movement.z*MOVESPEED,
-            g.movement.y*MOVESPEED,
-            0, 0, 0);
-        pose += delta;
+        math::Quaternion turn(0, 0, g.rotation);
+        math::Quaternion rot = pose.rot * turn;
+        math::Vector3 pos = pose.pos + (rot * g.movement);
+        pose.pos = pos;
+        pose.rot = rot;
         this->model->SetWorldPose(pose);
     }
 
