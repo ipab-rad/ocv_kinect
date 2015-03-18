@@ -10,6 +10,7 @@
       <background>0.7 0.7 0.7 1</background>
       <shadows>1</shadows>
     </scene>
+
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
       <pose>0 0 10 0.7 -1.155 0.383</pose>
@@ -23,6 +24,7 @@
       </attenuation>
       <direction>-0.5 0.1 -0.9</direction>
     </light>
+
     <model name='ground_plane'>
       <static>1</static>
       <link name='link'>
@@ -71,15 +73,17 @@
         <gravity>1</gravity>
       </link>
     </model>
+
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-4.65926 -6.5602 4.73603 1.44237e-17 0.276 0.552002</pose>
+        <pose>0 0 1 0 0 0</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
+
     <model name='occam'>
       <static>1</static>
-      <pose>0 0 1 0 -0 0</pose>
+      <pose>0 0 1 0 0 0</pose>
       <link name='link'>
         <collision name='collision'>
           <geometry>
@@ -105,6 +109,7 @@
             </box>
           </geometry>
         </visual>
+
         <velocity_decay>
           <linear>0</linear>
           <angular>0</angular>
@@ -113,45 +118,24 @@
         <kinematic>1</kinematic>
         <gravity>0</gravity>
       </link>
-      <plugin name='OccamControl' filename='../plugins/OccamControl/bin/libOccamControl.so'/>
+      <plugin name="OccamControl" filename="../plugins/OccamControl/bin/libOccamControl.so"/>
     </model>
-    <model name='Target1'>
-      <static>1</static>
-      <pose>1 0 0.5 0 -0 0</pose>
-      <link name='link'>
+
+
+
+
+<model name='Target1'>
+    <static>1</static>
+    <pose>3 -0.5 0.5 0 -0 0</pose>
+    <link name='link'>
         <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>file://Meshes/Target1.dae</uri>
-            </mesh>
-          </geometry>
+            <geometry>
+                <mesh><uri>file://Meshes/Target1.dae</uri></mesh>
+            </geometry>
         </visual>
-        <velocity_decay>
-          <linear>0</linear>
-          <angular>0</angular>
-        </velocity_decay>
-        <self_collide>0</self_collide>
-        <kinematic>0</kinematic>
-        <gravity>1</gravity>
-      </link>
-    </model>
-    <physics type='ode'>
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
-      <gravity>0 0 -9.8</gravity>
-      <magnetic_field>5.5645e-06 2.28758e-05 -4.23884e-05</magnetic_field>
-    </physics>
-    <audio>
-      <device>default</device>
-    </audio>
-    <spherical_coordinates>
-      <surface_model>EARTH_WGS84</surface_model>
-      <latitude_deg>0</latitude_deg>
-      <longitude_deg>0</longitude_deg>
-      <elevation>0</elevation>
-      <heading_deg>0</heading_deg>
-    </spherical_coordinates>
+    </link>
+</model>
+
     <model name='unit_box_1'>
       <pose>3 0 0.5 0 -0 0</pose>
       <link name='link'>
@@ -205,46 +189,29 @@
         <gravity>1</gravity>
       </link>
     </model>
-    <state world_name='default'>
-      <sim_time>47 546000000</sim_time>
-      <real_time>47 667010172</real_time>
-      <wall_time>1426704308 307798888</wall_time>
-      <model name='Target1'>
-        <pose>3.07516 -0.506395 0.5 0 -0 0</pose>
-        <link name='link'>
-          <pose>3.07516 -0.506395 0.5 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='ground_plane'>
-        <pose>0 0 0 0 -0 0</pose>
-        <link name='link'>
-          <pose>0 0 0 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='occam'>
-        <pose>0 0 1 0 -0 0</pose>
-        <link name='link'>
-          <pose>0 0 1 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='unit_box_1'>
-        <pose>3 0 0.5 0 -0 0</pose>
-        <link name='link'>
-          <pose>3 0 0.5 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-    </state>
+
+
+
+
+
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+      <magnetic_field>5.5645e-06 2.28758e-05 -4.23884e-05</magnetic_field>
+    </physics>
+
+    <audio>
+      <device>default</device>
+    </audio>
+
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
   </world>
 </sdf>
