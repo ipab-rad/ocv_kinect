@@ -43,7 +43,8 @@ namespace gazebo {
         math::Pose pose = this->model->GetWorldPose();
         math::Quaternion turn(0, 0, g.rotation);
         math::Quaternion rot = pose.rot * turn;
-        math::Vector3 pos = pose.pos + (rot * g.movement);
+        math::Vector3 mov(g.movement.x, g.movement.y, g.movement.z);
+        math::Vector3 pos = pose.pos + (rot * mov);
         pose.pos = pos;
         pose.rot = rot;
         this->model->SetWorldPose(pose);
