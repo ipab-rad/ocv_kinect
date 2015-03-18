@@ -2,10 +2,13 @@
 #include <stdio.h>
 
 #include <OccamControl.hpp>
+#include <unistd.h>
+#include <fcntl.h>
 
 #define CLIENT_IP "129.215.96.52"
 #define PORT "6360"
-#define MOVESPEED 0.01
+#define MOVESPEED 0.1
+#define TURNSPEED 0.025
 #define DUMMIED false
 
 namespace gazebo {
@@ -34,20 +37,35 @@ namespace gazebo {
         if (!initialized) {
             this->Setup();
         } else if (!DUMMIED) {
-            struct gesture g = this->ReceiveGesture();
-            this->MoveCamera(g);
+            this->ReceiveGesture();
         }
     }
 
     void OccamControl::MoveCamera(gesture g) {
+        g.movement = g.movement * MOVESPEED;
+        g.rotation = g.rotation * TURNSPEED;
         math::Pose pose = this->model->GetWorldPose();
-        math::Quaternion turn(0, 0, g.rotation);
+        math::Quaternion turn(0, 0, -g.rotation);
         math::Quaternion rot = pose.rot * turn;
-        math::Vector3 mov(g.movement.x, g.movement.y, g.movement.z);
+        math::Vector3 mov(-g.movement.z, -g.movement.x, g.movement.y);
         math::Vector3 pos = pose.pos + (rot * mov);
-        pose.pos = pos;
+        pose.pos = this->BoundPosition(pos);
         pose.rot = rot;
         this->model->SetWorldPose(pose);
+    }
+
+    math::Vector3 OccamControl::BoundPosition(math::Vector3 pos) {
+        double bounds = 20.0;
+        double x = pos.x;
+        double y = pos.y;
+        double z = pos.z;
+        if (x < -bounds) x = -bounds;
+        if (x > bounds) x = bounds;
+        if (y < -bounds) y = -bounds;
+        if (y > bounds) y = bounds;
+        if (z < 1.0) z = 1.0;
+        if (z > bounds) z = bounds;
+        return math::Vector3(x, y, z);
     }
 
     void OccamControl::Setup() {
@@ -86,6 +104,7 @@ namespace gazebo {
 
         for(host=this->hosts; host!=NULL; host=host->ai_next) {
             sock = socket(host->ai_family, host->ai_socktype, host->ai_protocol);
+            fcntl(sock, F_SETFL, O_NONBLOCK);
             if (sock == -1) continue;
             int bindstatus = bind(sock, host->ai_addr, host->ai_addrlen);
             if (bindstatus == -1) {
@@ -105,17 +124,15 @@ namespace gazebo {
         return 0;
     }
 
-    gesture OccamControl::ReceiveGesture() {
+    void OccamControl::ReceiveGesture() {
         char buffer[this->buffer_size];
         int recdbytes = recvfrom(this->sock, buffer, this->buffer_size, 0,
             (struct sockaddr*) &server_addr, &addr_len);
         gesture g;
-        if (recdbytes == -1) {
-            printf("Error receiving bytes.\n");
-        } else {
+        if (recdbytes > 0) {
             g = deserialize_gesture(buffer, buffer_size);
+            this->MoveCamera(g);
         }
-        return g;
     }
 
     // Register this plugin with the simulator

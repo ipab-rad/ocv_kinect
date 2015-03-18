@@ -49,8 +49,9 @@ namespace gazebo {
             int InitializeSocket();
             void Setup();
             void Update();
-            gesture ReceiveGesture();
+            void ReceiveGesture();
             void MoveCamera(gesture g);
+            math::Vector3 BoundPosition(math::Vector3 pos);
     };
 
 }
