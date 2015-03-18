@@ -7,12 +7,12 @@
 #define SAMPLE_PATH "SamplesConfig.xml"
 #define MAX_USERS 16
 
-#define INPUTEXTENT 150.0
-#define DEADZONE 0.4
-#define LOGGING_POSITION false
+#define INPUTEXTENT 200.0
+#define DEADZONE 0.8
+#define LOGGING_POSITION true
 
-vec3 NEUTRAL_OFFSET_RIGHT = {75.0, 0, -150.0};
-vec3 NEUTRAL_OFFSET_LEFT = {-75.0, 0, -150.0};
+vec3 NEUTRAL_OFFSET_RIGHT = {75.0, 0, -250.0};
+vec3 NEUTRAL_OFFSET_LEFT = {-75.0, 0, -250.0};
 
 
 GestureServer::GestureServer(const char* client_ip, const char* port) {
@@ -196,7 +196,8 @@ void GestureServer::SendGesture(xn::SkeletonCapability& skelly, XnUserID user) {
     vec3 movementVector = this->CalculateMovementVector(rhand, rshoulder);
     double rotation = this->CalculateRotation(lhand, lshoulder);
     if (LOGGING_POSITION) {
-        printf("Input: %.3f %.3f %.3f\n", movementVector.x, movementVector.y, movementVector.z);
+        printf("Input: (%.2f %.2f %.2f) (%.2f)\n",
+            movementVector.x, movementVector.y, movementVector.z, rotation);
     }
     gesture g;
     g.movement = movementVector;
