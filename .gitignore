@@ -26,6 +26,8 @@
 *.out
 *.app
 
+*.dblite
+
 # Compiled plugin folder
 bin/
 
