@@ -17,7 +17,7 @@ OCV Kinect requires Scons, and Gazebo 4 to compile and run.
 
 Additionally, Gazebo 4 must be compiled with Oculus Rift support. Instructions for doing that are here:
 
-[http://www.gazebosim.org/tutorials?tut=oculus&cat=rendering]
+[http://www.gazebosim.org/tutorials?tut=oculus&cat=rendering][]
 
 Reading this will help explain how Gazebo works with the Oculus Rift in the first place.
 
